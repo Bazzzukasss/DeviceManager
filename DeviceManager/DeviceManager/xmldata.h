@@ -5,7 +5,7 @@
 #include <QXmlStreamAttributes>
 #include <QVariant>
 #include <QVector>
-
+#include <treeitem.h>
 class XMLData
 {
     enum TagID{TAG_NAME,TAG_VALUE,TAG_ATTRIBUTES};
@@ -14,7 +14,7 @@ public:
     {
     }
 
-    XMLData(const QVector<TreeItemData>& data)
+    XMLData(const QVector< QPair<QString,QVariant>>& data)
         :mData(data)
     {
         mName = data[TAG_NAME].second.toString();

@@ -44,6 +44,7 @@
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
+#include <QSet>
 
 class TreeItem;
 
@@ -76,11 +77,13 @@ public:
     bool insertRows(int position, int rows, const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
     bool removeRows(int position, int rows,  const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
 
-private:
-    void setupModelData();
     TreeItem *getItem(const QModelIndex &index) const;
-    TreeItem *rootItem;
+    QSet<QString> mDeviceSet;
+private:
+    QSet<QString> GetItemDeviceSet(TreeItem *item);
+    TreeItem *mRootItem;
     QString mFilename;
+
 };
 
 

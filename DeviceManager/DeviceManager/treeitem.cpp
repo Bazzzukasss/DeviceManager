@@ -183,7 +183,8 @@ QVariant TreeItem::getData(int column) const
 {
     return mData.value(column).second;
 }
-const QVector<TreeItemData> &TreeItem::getData() const
+
+QVector<TreeItemData> TreeItem::getData() const
 {
     return mData;
 }

@@ -43,18 +43,20 @@
 #include "treeitem.h"
 #include "treemodel.h"
 #include "xmlprocessor.h"
+#include "xmldata.h"
 
 TreeModel::TreeModel(const QString &filename, QObject *parent)
     : QAbstractItemModel(parent),
       mFilename(filename)
 {
-    rootItem = new TreeItem(QVector<TreeItemData>(8));
-    XMLProcessor::Load(filename,rootItem);
+    mRootItem = new TreeItem(QVector<TreeItemData>(8));
+    XMLProcessor::Load(filename,mRootItem);
+    mDeviceSet = GetItemDeviceSet(mRootItem);
 }
 
 TreeModel::~TreeModel()
 {
-    delete rootItem;
+    delete mRootItem;
 }
 QVariant TreeModel::data(const QModelIndex &index, int role) const
 {
@@ -84,7 +86,7 @@ bool TreeModel::setData(const QModelIndex &index, const QVariant &value, int rol
 QVariant TreeModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return rootItem->getData(section);
+        return mRootItem->getData(section);
 
     return QVariant();
 }
@@ -95,7 +97,7 @@ bool TreeModel::setHeaderData(int section, Qt::Orientation orientation,
     if (role != Qt::EditRole || orientation != Qt::Horizontal)
         return false;
 
-    bool result = rootItem->setData(section, value);
+    bool result = mRootItem->setData(section, value);
 
     if (result)
         emit headerDataChanged(orientation, section, section);
@@ -110,7 +112,7 @@ void TreeModel::Save(const QString &filename)
 
 void TreeModel::Save()
 {
-    XMLProcessor::Save(mFilename,rootItem);
+    XMLProcessor::Save(mFilename,mRootItem);
 }
 
 const QString &TreeModel::getFileName()
@@ -120,7 +122,7 @@ const QString &TreeModel::getFileName()
 
 int TreeModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return rootItem->columnCount();
+    return mRootItem->columnCount();
 }
 
 
@@ -142,7 +144,7 @@ TreeItem *TreeModel::getItem(const QModelIndex &index) const
         if (item)
             return item;
     }
-    return rootItem;
+    return mRootItem;
 }
 
 
@@ -165,7 +167,7 @@ bool TreeModel::insertColumns(int position, int columns, const QModelIndex &pare
     bool success;
 
     beginInsertColumns(parent, position, position + columns - 1);
-    success = rootItem->insertColumns(position, columns);
+    success = mRootItem->insertColumns(position, columns);
     endInsertColumns();
 
     return success;
@@ -177,9 +179,9 @@ bool TreeModel::insertRows(int position, int rows, const QModelIndex &parent)
     bool success;
 
     beginInsertRows(parent, position, position + rows - 1);
-    success = mParent->insertItem(position, rows, rootItem->columnCount());
+    success = mParent->insertItem(position, rows, mRootItem->columnCount());
     endInsertRows();
-
+    mDeviceSet = GetItemDeviceSet(mRootItem);
     return success;
 }
 
@@ -191,7 +193,7 @@ QModelIndex TreeModel::parent(const QModelIndex &index) const
     TreeItem *childItem = getItem(index);
     TreeItem *mParent = childItem->getParent();
 
-    if (mParent == rootItem)
+    if (mParent == mRootItem)
         return QModelIndex();
 
     return createIndex(mParent->getNumber(), 0, mParent);
@@ -202,10 +204,10 @@ bool TreeModel::removeColumns(int position, int columns, const QModelIndex &pare
     bool success;
 
     beginRemoveColumns(parent, position, position + columns - 1);
-    success = rootItem->removeColumns(position, columns);
+    success = mRootItem->removeColumns(position, columns);
     endRemoveColumns();
 
-    if (rootItem->columnCount() == 0)
+    if (mRootItem->columnCount() == 0)
         removeRows(0, rowCount());
 
     return success;
@@ -219,8 +221,25 @@ bool TreeModel::removeRows(int position, int rows, const QModelIndex &parent)
     beginRemoveRows(parent, position, position + rows - 1);
     success = mParent->removeItem(position, rows);
     endRemoveRows();
-
+    mDeviceSet = GetItemDeviceSet(mRootItem);
     return success;
+}
+
+QSet<QString> TreeModel::GetItemDeviceSet(TreeItem *item)
+{
+    QSet<QString> devSet;
+    XMLData data(item->getData());
+    if(data.getName() == "device")
+    {
+        if(data.getAttributes().hasAttribute("name"))
+            devSet.insert(data.getAttributes().value("name").toString());
+    }
+    else
+    {
+        for(const auto& i : item->getItems())
+            devSet.unite( GetItemDeviceSet(i) );
+    }
+    return devSet;
 }
 
 int TreeModel::rowCount(const QModelIndex &parent) const

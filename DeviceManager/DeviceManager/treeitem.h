@@ -74,9 +74,9 @@ public:
     bool setData(int column, const QVariant &value);
     bool setData(int column, const TreeItemData &value);
     QVariant getData(int column) const;
+    QVector< TreeItemData > getData() const;
 
     void setData(const QVector<TreeItemData>& data);
-    const QVector<TreeItemData>& getData() const;
 
 private:
     QList<TreeItem*> mItems;

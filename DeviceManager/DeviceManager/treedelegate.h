@@ -1,6 +1,7 @@
 #ifndef TREEDELEGATE_H
 #define TREEDELEGATE_H
 #include <QLineEdit>
+#include <QComboBox>
 #include <QStyledItemDelegate>
 
 class TreeDelegate : public QStyledItemDelegate
@@ -17,7 +18,9 @@ public:
 public slots:
     void slotCommit();
 private:
-    QLineEdit* pWidget;
+    QLineEdit* pLineEdit;
+    QComboBox* pComboBox;
+    bool isComboBoxItem(const QModelIndex &index) const;
 };
 
 #endif // TREEDELEGATE_H
