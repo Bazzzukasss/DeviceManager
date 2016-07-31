@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>res/xml_new_format.xml</file>
+        <file>res/xml_source_format.xml</file>
+        <file>res/test.xml</file>
+    </qresource>
+</RCC>

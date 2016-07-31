@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hw>
+    <DevicesMapping>
+        <DeviceMap name="DEVICE_AUTO_FOCUS" HWType="AUTO_FOCUS" currentDevice="AF"/>
+        <DeviceMap name="DEVICE_GREEN_LASER" HWType="LASER" currentDevice="GreenLaser"/>
+    </DevicesMapping>
+    <HWdevices>
+        <device name="AFSim">
+            <property name="key1">value1</property>
+            <property name="key2">444</property>
+        </device>
+        <device name="AF">
+            <property name="key1">value1</property>
+            <property name="key2">444</property>
+            <property name="key3">555</property>
+        </device>
+        <device name="GreenLaserSim" type="0">
+            <property name="key1">value1</property>
+            <property name="key2">444</property>
+            <property name="key3">555</property>
+        </device>
+        <device name="GreenLaser" type="0">
+            <property name="key1">value1</property>
+            <property name="key2">444</property>
+            <property name="key3">555</property>
+        </device>
+    </HWdevices>
+    <PRISM>
+        <device name="AAAAAA">
+            <property name="key1">value1</property>
+            <property name="key2">444</property>
+            <property name="key3">555</property>
+        </device>
+        <device name="BBBBBB">
+            <property name="key1">value1</property>
+            <property name="key2">444</property>
+            <property name="key3">555</property>
+        </device>
+    </PRISM>
+</hw>

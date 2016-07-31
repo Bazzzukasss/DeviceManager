@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<device comment="" exist="0" must="0" name="0" type="0">
+ <sub-devices>
+  <device comment="" exist="0" must="0" name="HW" type="0">
+   <sub-devices>
+	
+    <device comment="" exist="0" must="0" name="DEVICE_AUTO_FOCUS" type="0">
+     <property comment="" exist="0" must="0" name="HWType" type="ENUM_TYPE">AUTO_FOCUS
+      <validator>
+       <enum>
+        <item code="16" description="AUTO_FOCUS"/>
+       </enum>
+      </validator>
+     </property>
+     <property comment="" exist="0" must="0" name="currentDevice" type="ENUM_TYPE">AF
+      <validator>
+       <enum>
+        <item code="1" description="AF"/>
+        <item code="0" description="AFSim"/>
+       </enum>
+      </validator>
+     </property>
+     <sub-devices>
+      <device comment="" exist="0" must="0" name="AFSim" type="0">
+       <property comment="" exist="0" must="0" name="LibraryPath" type="STRING_TYPE">DeviceAFSim.dll</property>
+      </device>
+      <device comment="" exist="0" must="0" name="AF" type="0">
+       <property comment="" exist="0" must="0" name="LibraryPath" type="STRING_TYPE">DeviceAF.dll</property>
+       <property comment="" exist="0" must="0" name="OFFSET_X5_OBJECTIVE" type="STRING_TYPE">-359</property>
+       <property comment="" exist="0" must="0" name="OFFSET_X10_OBJECTIVE" type="STRING_TYPE">334</property>
+       <property comment="" exist="0" must="0" name="OFFSET_SCAN_LENSE" type="STRING_TYPE">211</property>
+       <property comment="" exist="0" must="0" name="OFFSET_X20_OBJECTIVE" type="STRING_TYPE">23</property>
+       <property comment="" exist="0" must="0" name="OFFSET_X50_OBJECTIVE" type="STRING_TYPE">0</property>
+      </device>
+     </sub-devices>
+    </device>
+	
+    <device comment="" exist="0" must="0" name="DEVICE_GREEN_LASER" type="0">
+     <property comment="" exist="0" must="0" name="HWType" type="ENUM_TYPE">LASER
+      <validator>
+       <enum>
+        <item code="10" description="GreenLASER"/>
+       </enum>
+      </validator>
+     </property>
+     <property comment="" exist="0" must="0" name="currentDevice" type="ENUM_TYPE">GreenLaser
+      <validator>
+       <enum>
+        <item code="1" description="GreenLaser"/>
+        <item code="0" description="GreenLaserSim"/>
+       </enum>
+      </validator>
+     </property>
+     <sub-devices>
+      <device comment="" exist="0" must="0" name="GreenLaserSim" type="0">
+       <property comment="" exist="0" must="0" name="LibraryPath" type="STRING_TYPE">DeviceGreenLaserSim.dll</property>
+       <property comment="" exist="0" must="0" name="isSimulator" type="STRING_TYPE">true</property>
+       <property comment="" exist="0" must="0" name="IO_PORT" type="STRING_TYPE">133</property>
+       <property comment="" exist="0" must="0" name="FLAGS_SYNC" type="STRING_TYPE">1</property>
+       <property comment="" exist="0" must="0" name="HIGH_STATE_PORT_ON_1" type="STRING_TYPE">143</property>
+
+      </device>
+      <device comment="" exist="0" must="0" name="GreenLaser" type="0">
+       <property comment="" exist="0" must="0" name="LibraryPath" type="STRING_TYPE">DeviceGreenLaser.dll</property>
+       <property comment="" exist="0" must="0" name="isSimulator" type="STRING_TYPE">false</property>
+       <property comment="" exist="0" must="0" name="IO_PORT" type="STRING_TYPE">133</property>
+       <property comment="" exist="0" must="0" name="FLAGS_SYNC" type="STRING_TYPE">1</property>
+       <property comment="" exist="0" must="0" name="HIGH_STATE_PORT_ON_1" type="STRING_TYPE">143</property>
+      </device>
+     </sub-devices>
+    </device>
+
+   </sub-devices>
+  </device>
+  
+  <device comment="" exist="0" must="0" name="PRISM" type="0">
+   <sub-devices>
+    <device comment="" exist="0" must="0" name="AAAAAA" type="0">
+     <property comment="" exist="0" must="0" name="ShapeAmpY" type="STRING_TYPE">0</property>
+     <property comment="" exist="0" must="0" name="ShapeCenterY" type="STRING_TYPE">-1200</property>
+     <property comment="" exist="0" must="0" name="ShapeFreq" type="STRING_TYPE">15</property>
+     <property comment="" exist="0" must="0" name="ShapeCenterX" type="STRING_TYPE">2800</property>
+    </device>
+    <device comment="" exist="0" must="0" name="BBBBBB" type="0">
+     <property comment="" exist="0" must="0" name="ShapeAmpY" type="STRING_TYPE">0</property>
+     <property comment="" exist="0" must="0" name="ShapeCenterY" type="STRING_TYPE">-1200</property>
+     <property comment="" exist="0" must="0" name="ShapeFreq" type="STRING_TYPE">15</property>
+    </device>
+   </sub-devices>
+  </device>
+  
+ </sub-devices>
+</device>

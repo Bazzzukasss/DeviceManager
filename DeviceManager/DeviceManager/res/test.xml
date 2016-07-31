@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HW>
+    <HWdevices>
+        <device name="device1">
+            <property name="key1">value1</property>
+            <property name="key2">value2</property>
+        </device>
+        <device name="device2">
+            <property name="key1">value1</property>
+            <property name="key2">value2</property>
+            <property name="key3">value3</property>
+        </device>
+    </HWdevices>
+</HW>

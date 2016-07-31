@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HW>
+    <HWdevices>
+        <device name="device1">
+            <property name="key11111">11111</property>
+            <property name="key22222">222222</property>
+        </device>
+        <device name="device2">
+            <property name="key13333">33333</property>
+            <property name="key24444">4444</property>
+            <property name="key35555">5555</property>
+        </device>
+    </HWdevices>
+</HW>
