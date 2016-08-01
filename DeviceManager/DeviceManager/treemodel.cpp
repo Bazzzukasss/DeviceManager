@@ -49,7 +49,7 @@ TreeModel::TreeModel(const QString &filename, QObject *parent)
     : QAbstractItemModel(parent),
       mFilename(filename)
 {
-    mRootItem = new TreeItem(QVector<TreeItemData>(8));
+    mRootItem = new TreeItem(QVector<TreeItemData>(5));
     XMLProcessor::Load(filename,mRootItem);
     mDeviceSet = GetItemDeviceSet(mRootItem);
 }
@@ -91,8 +91,7 @@ QVariant TreeModel::headerData(int section, Qt::Orientation orientation, int rol
     return QVariant();
 }
 
-bool TreeModel::setHeaderData(int section, Qt::Orientation orientation,
-                              const QVariant &value, int role)
+bool TreeModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
 {
     if (role != Qt::EditRole || orientation != Qt::Horizontal)
         return false;
@@ -125,16 +124,16 @@ int TreeModel::columnCount(const QModelIndex & /* parent */) const
     return mRootItem->columnCount();
 }
 
-
-
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return 0;
+    Qt::ItemFlags flags = QAbstractItemModel::flags(index);
+
     if(index.column()>0)
-        return Qt::ItemIsEditable | QAbstractItemModel::flags(index);
-    else
-        return QAbstractItemModel::flags(index);
+        flags|= Qt::ItemIsEditable;
+
+    return flags;
 }
 
 TreeItem *TreeModel::getItem(const QModelIndex &index) const

@@ -19,8 +19,11 @@ XMLWidget::XMLWidget(QWidget *parent)
     slotViewResize();
 
     mSelectionModel = new QItemSelectionModel(mModel);
-    mTreeView->setSelectionModel(mSelectionModel);
+   // mTreeView->setSelectionModel(mSelectionModel);
     mTreeView->setItemDelegate(new TreeDelegate());
+    mTreeView->setAlternatingRowColors(true);
+    mTreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
+    //mTreeView->setHeaderHidden(true);
 
     connect(mTreeView,          SIGNAL(expanded(QModelIndex)),  this,   SLOT(slotViewResize()));
     connect(mTreeView,          SIGNAL(collapsed(QModelIndex)), this,   SLOT(slotViewResize()));
@@ -59,7 +62,7 @@ void XMLWidget::slotOpen()
 
 
         mTreeView->setModel(mModel);
-        mTreeView->setSelectionModel(mSelectionModel);
+        //mTreeView->setSelectionModel(mSelectionModel);
 
         //mTreeView->expandAll();
         updateFileLabel(filename);
