@@ -12,29 +12,20 @@ XMLWidget::XMLWidget(QWidget *parent)
     mSelectionModel = nullptr;
     mTreeView = new QTreeView(this);
     mCurrentFileLabel = new QLabel(this);
-    updateFileLabel("");
-    mModel =  new TreeModel(":/res/res/xml_new_format.xml");
-    mTreeView->setModel(mModel);
-    //mTreeView->expandAll();
-    slotViewResize();
-
-    mSelectionModel = new QItemSelectionModel(mModel);
-   // mTreeView->setSelectionModel(mSelectionModel);
     mTreeView->setItemDelegate(new TreeDelegate());
     mTreeView->setAlternatingRowColors(true);
     mTreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
-    //mTreeView->setHeaderHidden(true);
 
     connect(mTreeView,          SIGNAL(expanded(QModelIndex)),  this,   SLOT(slotViewResize()));
     connect(mTreeView,          SIGNAL(collapsed(QModelIndex)), this,   SLOT(slotViewResize()));
 
+    open(":/res/res/xml_new_format.xml");
     build();
 }
 
 XMLWidget::~XMLWidget()
 {
     delete mModel;
-    //delete mSelectionModel;
 }
 
 void XMLWidget::build()
@@ -48,25 +39,26 @@ void XMLWidget::build()
     mainLayout->setSpacing(4);
 }
 
+void XMLWidget::open(const QString &filename)
+{
+    if(mModel)
+        delete mModel;
+    mModel = new TreeModel(filename);
+    mSelectionModel = new QItemSelectionModel(mModel);
+
+    mTreeView->setModel(mModel);
+    mTreeView->setSelectionModel(mSelectionModel);
+    connect(mSelectionModel,    SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this,   SLOT(slotHeadersRefresh(QModelIndex,QModelIndex)));
+
+    updateFileLabel(filename);
+}
+
 //SLOTS
 void XMLWidget::slotOpen()
 {
     QString filename = QFileDialog::getOpenFileName(this, "Open file", mModel->getFileName(), "files(*.xml )");
     if(!filename.isEmpty())
-    {
-        //delete mSelectionModel;
-        delete mModel;
-
-        mModel = new TreeModel(filename);
-        mSelectionModel = new QItemSelectionModel(mModel);
-
-
-        mTreeView->setModel(mModel);
-        //mTreeView->setSelectionModel(mSelectionModel);
-
-        //mTreeView->expandAll();
-        updateFileLabel(filename);
-    }
+        open(filename);
 }
 void XMLWidget::slotSave()
 {
@@ -90,6 +82,11 @@ void XMLWidget::slotToOldFormat()
 void XMLWidget::slotToNewFormat()
 {
 
+}
+
+void XMLWidget::slotHeadersRefresh(QModelIndex currentIndex, QModelIndex previosIndex)
+{
+    mModel->RefreshHeaders(currentIndex);
 }
 
 void XMLWidget::slotViewResize()

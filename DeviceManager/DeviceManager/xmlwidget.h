@@ -23,6 +23,7 @@ public slots:
     void slotSaveAs();
     void slotToOldFormat();
     void slotToNewFormat();
+    void slotHeadersRefresh(QModelIndex currentIndex, QModelIndex previosIndex);
     void slotViewResize();
     void slotRevertAll();
     void slotInsertTag();
@@ -35,6 +36,7 @@ private:
     QItemSelectionModel* mSelectionModel;
     void updateFileLabel(const QString& filename);
     void build();
+    void open(const QString& filename);
 };
 
 #endif // XMLWIDGET_H

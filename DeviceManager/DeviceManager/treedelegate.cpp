@@ -85,14 +85,21 @@ void TreeDelegate::slotCommit()
 
 bool TreeDelegate::isComboBoxItem(const QModelIndex &index) const
 {
-    TreeItem* item = dynamic_cast<const TreeModel*> (index.model())->getItem(index);
-    if(item)
+    if(index.isValid())
     {
-        XMLData data(item->getData());
-        if(data.getName() == "DeviceMap")
+        TreeItem* item = dynamic_cast<const TreeModel*> (index.model())->getItem(index);
+        if(item)
         {
-            if(data.getAttributes().at(index.column()-2).name() == "currentDevice")
-                return true;
+            XMLData data(item->getData());
+            if(data.getName() == "DeviceMap")
+            {
+                int i = index.column()-2;
+                if((i>0)&&(i < data.getAttributes().size()))
+                {
+                    if(data.getAttributes().at(i).name() == "currentDevice")
+                        return true;
+                }
+            }
         }
     }
     return false;

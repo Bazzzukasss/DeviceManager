@@ -49,9 +49,13 @@ TreeModel::TreeModel(const QString &filename, QObject *parent)
     : QAbstractItemModel(parent),
       mFilename(filename)
 {
-    mRootItem = new TreeItem(QVector<TreeItemData>(5));
+    mRootItem = new TreeItem(QVector<TreeItemData>());
     XMLProcessor::Load(filename,mRootItem);
     mDeviceSet = GetItemDeviceSet(mRootItem);
+
+    int colCount = GetMaxColumnCount(mRootItem) + 2;
+    for(int i = 0; i < colCount; ++i)
+        mCaptions << "...";
 }
 
 TreeModel::~TreeModel()
@@ -86,7 +90,7 @@ bool TreeModel::setData(const QModelIndex &index, const QVariant &value, int rol
 QVariant TreeModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return mRootItem->getData(section);
+        return mCaptions[section];
 
     return QVariant();
 }
@@ -121,7 +125,7 @@ const QString &TreeModel::getFileName()
 
 int TreeModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return mRootItem->columnCount();
+    return mCaptions.size();
 }
 
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
@@ -130,20 +134,44 @@ Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
         return 0;
     Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
-    if(index.column()>0)
-        flags|= Qt::ItemIsEditable;
-
+    TreeItem *item = getItem(index);
+    if(item)
+    {
+        XMLData data(item->getData());
+        if( (index.column()>0) && (index.column() < data.getAttributes().size()+2) )
+            flags|= Qt::ItemIsEditable;
+    }
     return flags;
 }
 
 TreeItem *TreeModel::getItem(const QModelIndex &index) const
 {
-    if (index.isValid()) {
-        TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
-        if (item)
-            return item;
+    if (!index.isValid())
+        return mRootItem;
+
+    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    if (item)
+        return item;
+}
+
+void TreeModel::RefreshHeaders(const QModelIndex &index)
+{
+    if(!index.isValid())
+        return;
+
+    TreeItem *item = getItem(index);
+    if(item)
+    {
+        QVector<TreeItemData> data = item->getData();
+        for(int i=0; i<mCaptions.size(); ++i)
+        {
+            if(i<data.size())
+                mCaptions[i] = data[i].first;
+            else
+                mCaptions[i] = "...";
+        }
     }
-    return mRootItem;
+    emit headerDataChanged(Qt::Horizontal,0,mCaptions.size());
 }
 
 
@@ -222,6 +250,22 @@ bool TreeModel::removeRows(int position, int rows, const QModelIndex &parent)
     endRemoveRows();
     mDeviceSet = GetItemDeviceSet(mRootItem);
     return success;
+}
+int TreeModel::GetMaxColumnCount(TreeItem *item)
+{
+    int count(0);
+    XMLData data(item->getData());
+
+    if(count < data.getAttributes().size())
+        count = data.getAttributes().size();
+
+    for(const auto& i : item->getItems())
+    {
+        int cnt = GetMaxColumnCount(i);
+        if(count < cnt)
+            count = cnt;
+    }
+    return count;
 }
 
 QSet<QString> TreeModel::GetItemDeviceSet(TreeItem *item)

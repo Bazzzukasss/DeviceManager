@@ -78,11 +78,15 @@ public:
     bool removeRows(int position, int rows,  const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
 
     TreeItem *getItem(const QModelIndex &index) const;
+    void RefreshHeaders(const QModelIndex &index);
     QSet<QString> mDeviceSet;
+
 private:
     QSet<QString> GetItemDeviceSet(TreeItem *item);
+    int GetMaxColumnCount(TreeItem *item);
     TreeItem *mRootItem;
     QString mFilename;
+    QList<QString> mCaptions;
 
 };
 

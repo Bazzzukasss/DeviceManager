@@ -17,14 +17,17 @@ public:
     XMLData(const QVector< QPair<QString,QVariant>>& data)
         :mData(data)
     {
-        mName = data[TAG_NAME].second.toString();
-        mValue = data[TAG_VALUE].second.toString();
-        int i=0;
-        for(auto a : data)
+        if(!data.isEmpty())
         {
-            if(i>1)
-                mAttributes.push_back(QXmlStreamAttribute(a.first,a.second.toString()));
-            i++;
+            mName = data[TAG_NAME].second.toString();
+            mValue = data[TAG_VALUE].second.toString();
+            int i=0;
+            for(auto a : data)
+            {
+                if(i>1)
+                    mAttributes.push_back(QXmlStreamAttribute(a.first,a.second.toString()));
+                i++;
+            }
         }
     }
 
