@@ -79,7 +79,8 @@ public:
 
     TreeItem *getItem(const QModelIndex &index) const;
     void RefreshHeaders(const QModelIndex &index);
-    QSet<QString> mDeviceSet;
+
+    const QSet<QString>& getDeviceSet() const;
 
 private:
     QSet<QString> GetItemDeviceSet(TreeItem *item);
@@ -87,7 +88,7 @@ private:
     TreeItem *mRootItem;
     QString mFilename;
     QList<QString> mCaptions;
-
+    QSet<QString> mDeviceSet;
 };
 
 

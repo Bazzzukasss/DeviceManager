@@ -48,9 +48,9 @@
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="actionInsertTag"/>
-    <addaction name="actionInsertSubTag"/>
+    <addaction name="actionAdd"/>
     <addaction name="actionDelete"/>
+    <addaction name="actionDuplicate"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -89,19 +89,42 @@
     <string>To new format</string>
    </property>
   </action>
-  <action name="actionInsertTag">
+  <action name="actionDuplicate">
    <property name="text">
-    <string>Insert tag</string>
+    <string>Duplicate</string>
+   </property>
+   <property name="toolTip">
+    <string>Duplicate Device Map,HWDevice,Prism Device,Device Property</string>
    </property>
   </action>
   <action name="actionDelete">
    <property name="text">
-    <string>Delete tag</string>
+    <string>Delete</string>
    </property>
   </action>
   <action name="actionInsertSubTag">
    <property name="text">
     <string>Insert subtag</string>
+   </property>
+  </action>
+  <action name="actionAddHWDevice">
+   <property name="text">
+    <string>Add HW Device</string>
+   </property>
+  </action>
+  <action name="actionAddDeviceProperty">
+   <property name="text">
+    <string>Add DeviceProperty</string>
+   </property>
+  </action>
+  <action name="actionAdd">
+   <property name="text">
+    <string>Add</string>
+   </property>
+  </action>
+  <action name="actionAddPrismDevice">
+   <property name="text">
+    <string>Add Prism Device</string>
    </property>
   </action>
  </widget>

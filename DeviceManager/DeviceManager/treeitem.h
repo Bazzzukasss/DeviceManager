@@ -51,6 +51,8 @@ class TreeItem
 {
 public:
     explicit TreeItem(const QVector<TreeItemData> &data , TreeItem *parent = 0);
+    explicit TreeItem(TreeItem *parent);
+    TreeItem(const TreeItem *item, TreeItem *parent = 0);
     ~TreeItem();
 
     TreeItem *getParent();
@@ -64,7 +66,7 @@ public:
     int itemsCount() const;
     int columnCount() const;
 
-    bool insertItem(int position, int count, int columns);
+    bool insertItem(int position, int count);
     bool insertColumns(int position, int columns);
 
     bool removeItem(int position, int count);
@@ -77,11 +79,12 @@ public:
     QVector< TreeItemData > getData() const;
 
     void setData(const QVector<TreeItemData>& data);
-
+    TreeItem& operator=(const TreeItem& item);
 private:
     QList<TreeItem*> mItems;
     QVector< TreeItemData > mData;
     TreeItem *mParent;
+    void clone(const TreeItem   *item);
 };
 
 

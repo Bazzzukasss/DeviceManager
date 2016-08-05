@@ -63,9 +63,11 @@ void TreeDelegate::setEditorData(QWidget *editor, const QModelIndex &index) cons
         if(isComboBoxItem(index))
         {
             QComboBox* pEditor=qobject_cast<QComboBox*>(editor);
-            QSet<QString> devSet=dynamic_cast<const TreeModel*> (index.model())->mDeviceSet;
+            QSet<QString> devSet=dynamic_cast<const TreeModel*> (index.model())->getDeviceSet();
             for(auto& str : devSet)
                 pEditor->addItem(str);
+            QString value=index.model()->data(index).value<QString>();
+            pEditor->setCurrentText(value);
         }
         else
         {

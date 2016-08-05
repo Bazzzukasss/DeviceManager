@@ -10,6 +10,7 @@
 #include <QItemSelectionModel>
 #include <QLabel>
 #include "treemodel.h"
+#include "treeitem.h"
 
 class XMLWidget : public QFrame
 {
@@ -24,11 +25,14 @@ public slots:
     void slotToOldFormat();
     void slotToNewFormat();
     void slotHeadersRefresh(QModelIndex currentIndex, QModelIndex previosIndex);
+    void slotUpdateActions(QModelIndex currentIndex, QModelIndex previosIndex);
     void slotViewResize();
     void slotRevertAll();
     void slotInsertTag();
     void slotInsertSubTag();
     void slotDelete();
+    void slotDuplicate();
+    void slotAdd();
 private:
     QLabel* mCurrentFileLabel;
     QTreeView* mTreeView;
@@ -37,6 +41,7 @@ private:
     void updateFileLabel(const QString& filename);
     void build();
     void open(const QString& filename);
+    void Add(QModelIndex& index,const QVector<TreeItemData>& newItemData);
 };
 
 #endif // XMLWIDGET_H

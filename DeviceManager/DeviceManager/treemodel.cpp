@@ -83,7 +83,10 @@ bool TreeModel::setData(const QModelIndex &index, const QVariant &value, int rol
     bool result = item->setData(index.column(), value);
 
     if (result)
+    {
         emit dataChanged(index, index);
+        mDeviceSet = GetItemDeviceSet(mRootItem);
+    }
 
     return result;
 }
@@ -174,6 +177,11 @@ void TreeModel::RefreshHeaders(const QModelIndex &index)
     emit headerDataChanged(Qt::Horizontal,0,mCaptions.size());
 }
 
+const QSet<QString> &TreeModel::getDeviceSet() const
+{
+    return mDeviceSet;
+}
+
 
 QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) const
 {
@@ -206,7 +214,7 @@ bool TreeModel::insertRows(int position, int rows, const QModelIndex &parent)
     bool success;
 
     beginInsertRows(parent, position, position + rows - 1);
-    success = mParent->insertItem(position, rows, mRootItem->columnCount());
+    success = mParent->insertItem(position, rows);
     endInsertRows();
     mDeviceSet = GetItemDeviceSet(mRootItem);
     return success;

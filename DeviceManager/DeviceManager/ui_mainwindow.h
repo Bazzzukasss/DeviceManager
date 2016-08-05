@@ -33,9 +33,13 @@ public:
     QAction *actionOpen;
     QAction *actionToOldFormat;
     QAction *actionToNewFormat;
-    QAction *actionInsertTag;
+    QAction *actionDuplicate;
     QAction *actionDelete;
     QAction *actionInsertSubTag;
+    QAction *actionAddHWDevice;
+    QAction *actionAddDeviceProperty;
+    QAction *actionAdd;
+    QAction *actionAddPrismDevice;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     XMLWidget *xmlFrame;
@@ -60,12 +64,20 @@ public:
         actionToOldFormat->setObjectName(QStringLiteral("actionToOldFormat"));
         actionToNewFormat = new QAction(MainWindow);
         actionToNewFormat->setObjectName(QStringLiteral("actionToNewFormat"));
-        actionInsertTag = new QAction(MainWindow);
-        actionInsertTag->setObjectName(QStringLiteral("actionInsertTag"));
+        actionDuplicate = new QAction(MainWindow);
+        actionDuplicate->setObjectName(QStringLiteral("actionDuplicate"));
         actionDelete = new QAction(MainWindow);
         actionDelete->setObjectName(QStringLiteral("actionDelete"));
         actionInsertSubTag = new QAction(MainWindow);
         actionInsertSubTag->setObjectName(QStringLiteral("actionInsertSubTag"));
+        actionAddHWDevice = new QAction(MainWindow);
+        actionAddHWDevice->setObjectName(QStringLiteral("actionAddHWDevice"));
+        actionAddDeviceProperty = new QAction(MainWindow);
+        actionAddDeviceProperty->setObjectName(QStringLiteral("actionAddDeviceProperty"));
+        actionAdd = new QAction(MainWindow);
+        actionAdd->setObjectName(QStringLiteral("actionAdd"));
+        actionAddPrismDevice = new QAction(MainWindow);
+        actionAddPrismDevice->setObjectName(QStringLiteral("actionAddPrismDevice"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
@@ -100,9 +112,9 @@ public:
         menuFile->addAction(actionOpen);
         menuFile->addAction(actionSave);
         menuFile->addAction(actionSaveAs);
-        menuEdit->addAction(actionInsertTag);
-        menuEdit->addAction(actionInsertSubTag);
+        menuEdit->addAction(actionAdd);
         menuEdit->addAction(actionDelete);
+        menuEdit->addAction(actionDuplicate);
 
         retranslateUi(MainWindow);
 
@@ -117,9 +129,16 @@ public:
         actionOpen->setText(QApplication::translate("MainWindow", "Open...", 0));
         actionToOldFormat->setText(QApplication::translate("MainWindow", "To old format", 0));
         actionToNewFormat->setText(QApplication::translate("MainWindow", "To new format", 0));
-        actionInsertTag->setText(QApplication::translate("MainWindow", "Insert tag", 0));
-        actionDelete->setText(QApplication::translate("MainWindow", "Delete tag", 0));
+        actionDuplicate->setText(QApplication::translate("MainWindow", "Duplicate", 0));
+#ifndef QT_NO_TOOLTIP
+        actionDuplicate->setToolTip(QApplication::translate("MainWindow", "Duplicate Device Map,HWDevice,Prism Device,Device Property", 0));
+#endif // QT_NO_TOOLTIP
+        actionDelete->setText(QApplication::translate("MainWindow", "Delete", 0));
         actionInsertSubTag->setText(QApplication::translate("MainWindow", "Insert subtag", 0));
+        actionAddHWDevice->setText(QApplication::translate("MainWindow", "Add HW Device", 0));
+        actionAddDeviceProperty->setText(QApplication::translate("MainWindow", "Add DeviceProperty", 0));
+        actionAdd->setText(QApplication::translate("MainWindow", "Add", 0));
+        actionAddPrismDevice->setText(QApplication::translate("MainWindow", "Add Prism Device", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", 0));
     } // retranslateUi
