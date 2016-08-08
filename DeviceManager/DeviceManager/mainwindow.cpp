@@ -9,12 +9,19 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionOpen,             SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotOpen()));
     connect(ui->actionSave,             SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotSave()));
     connect(ui->actionSaveAs,           SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotSaveAs()));
-    connect(ui->actionToNewFormat,      SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotToNewFormat()));
-    connect(ui->actionToOldFormat,      SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotToOldFormat()));
+    //connect(ui->actionToNewFormat,      SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotToNewFormat()));
+    //connect(ui->actionToOldFormat,      SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotToOldFormat()));
     connect(ui->actionDuplicate,        SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotDuplicate()));
-    connect(ui->actionInsertSubTag,     SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotInsertSubTag()));
+    //connect(ui->actionInsertSubTag,     SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotInsertSubTag()));
     connect(ui->actionDelete,           SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotDelete()));
     connect(ui->actionAdd,              SIGNAL(triggered(bool)),    ui->xmlFrame,   SLOT(slotAdd()));
+
+    ui->mainToolBar->addAction("Open",ui->xmlFrame,SLOT(slotOpen()));
+    ui->mainToolBar->addAction("Save",ui->xmlFrame,SLOT(slotSave()));
+    ui->mainToolBar->addSeparator();
+    ui->mainToolBar->addAction("Add",ui->xmlFrame,SLOT(slotAdd()));
+    ui->mainToolBar->addAction("Delete",ui->xmlFrame,SLOT(slotDelete()));
+    ui->mainToolBar->addAction("Duplicate",ui->xmlFrame,SLOT(slotDuplicate()));
 }
 
 MainWindow::~MainWindow()

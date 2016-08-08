@@ -198,24 +198,43 @@ void XMLWidget::slotAdd()
         QString name = data.getName();
         XMLData newItemData;
         bool res(false);
+        QXmlStreamAttributes attributes;
         if(name == "HWdevices")
         {
+            attributes.append("name","AF");
+            newItemData.setAttributes(attributes);
+            newItemData.setName("device");
             res = true;
         }
         if(name == "PRISM")
         {
+            attributes.append("name","AAAAAA");
+            newItemData.setAttributes(attributes);
+            newItemData.setName("device");
             res = true;
         }
         if(name == "DevicesMapping")
         {
+            attributes.append("name","DEVICE_GREEN_LASER");
+            attributes.append("HWType","LASER");
+            attributes.append("currentDevice","GreenLaser");
+            newItemData.setAttributes(attributes);
+            newItemData.setName("DeviceMap");
             res = true;
         }
         if(name == "device")
         {
+            attributes.append("name","key");
+            newItemData.setAttributes(attributes);
+            newItemData.setName("property");
+            newItemData.setValue("value");
             res = true;
         }
         if(res)
+        {
             Add(index,newItemData.getData());
+            mTreeView->expand(index);
+        }
     }
 }
 
