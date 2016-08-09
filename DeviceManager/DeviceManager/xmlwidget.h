@@ -19,6 +19,8 @@ public:
     XMLWidget(QWidget *parent = Q_NULLPTR);
     ~XMLWidget();
     void setEditable(bool isEditable);
+    void setModelData(const QString &filename,TreeItem* rootItem = nullptr);
+    const QString& getCurFileName();
 public slots:
     void slotOpen();
     void slotSave();
@@ -35,14 +37,14 @@ public slots:
     void slotDuplicate();
     void slotAdd();
 private:
+    QString mCurFileName;
     QLabel* mCurrentFileLabel;
     QTreeView* mTreeView;
     TreeModel* mModel;
     QItemSelectionModel* mSelectionModel;
     bool mIsEditable;
-    void updateFileLabel(const QString& filename);
+    void setCurFileName(const QString& filename);
     void build();
-    void open(const QString& filename);
     void Add(QModelIndex& index,const QVector<TreeItemData>& newItemData);
 };
 

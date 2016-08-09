@@ -1,5 +1,7 @@
-#include "cmpwidget.h"
 #include <QHBoxLayout>
+#include <QFileDialog>
+#include "cmpwidget.h"
+#include "xmlprocessor.h"
 
 CMPWidget::CMPWidget(QWidget *parent)
     :QFrame(parent)
@@ -10,6 +12,22 @@ CMPWidget::CMPWidget(QWidget *parent)
         widget->setEditable(false);
 
     build();
+    QVector<QString> filenames;
+    filenames.push_back(":/res/res/xml_new_format.xml");
+    filenames.push_back(":/res/res/xml_source_format.xml");
+    compare(filenames);
+}
+
+void CMPWidget::slotCompare()
+{
+    QVector<QString> filenames(2);
+    for(int i=0; i<2;++i)
+    {
+        filenames[i] = QFileDialog::getOpenFileName(this, "Open file", mXMLWidgets[i]->getCurFileName(), "files(*.xml )");
+        if(filenames[i].isEmpty())
+            return;
+    }
+    compare(filenames);
 }
 void CMPWidget::build()
 {
@@ -20,5 +38,16 @@ void CMPWidget::build()
 
     mainLayout->setMargin(2);
     mainLayout->setSpacing(4);
+}
+
+bool CMPWidget::compare(const QVector<QString> &filenames)
+{
+    QVector<TreeItem*> rootItems;
+    for(int i=0;i<2;++i)
+    {
+        rootItems.push_back(new TreeItem());
+        XMLProcessor::Load(filenames[i],rootItems[i]);
+        mXMLWidgets[i]->setModelData(filenames[i],rootItems[i]);
+    }
 }
 

@@ -22,7 +22,7 @@ XMLWidget::XMLWidget(QWidget *parent)
     connect(mTreeView,          SIGNAL(expanded(QModelIndex)),  this,   SLOT(slotViewResize()));
     connect(mTreeView,          SIGNAL(collapsed(QModelIndex)), this,   SLOT(slotViewResize()));
 
-    open(":/res/res/xml_new_format.xml");
+    setModelData(":/res/res/xml_new_format.xml");
     build();
 }
 
@@ -49,11 +49,14 @@ void XMLWidget::build()
     mainLayout->setSpacing(4);
 }
 
-void XMLWidget::open(const QString &filename)
+void XMLWidget::setModelData(const QString &filename,TreeItem* rootItem)
 {
     if(mModel)
         delete mModel;
-    mModel = new TreeModel(filename);
+    if(rootItem == nullptr)
+        mModel = new TreeModel(filename);
+    else
+        mModel = new TreeModel(rootItem);
     mSelectionModel = new QItemSelectionModel(mModel);
 
     mModel->setEditable(mIsEditable);
@@ -61,16 +64,19 @@ void XMLWidget::open(const QString &filename)
     mTreeView->setSelectionModel(mSelectionModel);
     connect(mSelectionModel,    SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this,   SLOT(slotHeadersRefresh(QModelIndex,QModelIndex)));
     connect(mSelectionModel,    SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this,   SLOT(slotUpdateActions(QModelIndex,QModelIndex)));
-
-    updateFileLabel(filename);
+    setCurFileName(filename);
 }
 
+const QString &XMLWidget::getCurFileName()
+{
+    return mCurFileName;
+}
 //SLOTS
 void XMLWidget::slotOpen()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Open file", mModel->getFileName(), "files(*.xml )");
+    QString filename = QFileDialog::getOpenFileName(this, "Open file", mCurFileName, "files(*.xml )");
     if(!filename.isEmpty())
-        open(filename);
+        setModelData(filename);
 }
 void XMLWidget::slotSave()
 {
@@ -78,11 +84,11 @@ void XMLWidget::slotSave()
 }
 void XMLWidget::slotSaveAs()
 {
-    QString filename = QFileDialog::getSaveFileName(this, "Save file", mModel->getFileName(), "files(*.xml )");
+    QString filename = QFileDialog::getSaveFileName(this, "Save file", mCurFileName, "files(*.xml )");
     if(!filename.isEmpty())
     {
         mModel->Save(filename);
-        updateFileLabel(filename);
+        setCurFileName(filename);
     }
 }
 
@@ -192,11 +198,6 @@ void XMLWidget::Add(QModelIndex& index,const QVector<TreeItemData>& newItemData)
     childItem->setData(newItemData);
 }
 
-/*
- * <device name="AF">
-            <property name="key1">value1</property>
-            <DeviceMap name="DEVICE_GREEN_LASER" HWType="LASER" currentDevice="GreenLaser"/>
-*/
 void XMLWidget::slotAdd()
 {
     QModelIndex index = mSelectionModel->currentIndex();
@@ -247,7 +248,8 @@ void XMLWidget::slotAdd()
     }
 }
 
-void XMLWidget::updateFileLabel(const QString& filename)
+void XMLWidget::setCurFileName(const QString& filename)
 {
+    mCurFileName = filename;
     mCurrentFileLabel->setText("<b>Curent file  :   </b>" + filename);
 }

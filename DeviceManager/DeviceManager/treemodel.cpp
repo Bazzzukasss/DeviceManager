@@ -49,15 +49,24 @@ TreeModel::TreeModel(const QString &filename, QObject *parent)
     : QAbstractItemModel(parent),
       mFilename(filename)
 {
-    mRootItem = new TreeItem(QVector<TreeItemData>());
+    mRootItem = new TreeItem();
     XMLProcessor::Load(filename,mRootItem);
-    mDeviceSet = GetItemDeviceSet(mRootItem);
 
+    init();
+}
+
+TreeModel::TreeModel(TreeItem *rootItem, QObject *parent)
+{
+    mRootItem = rootItem;
+    init();
+}
+void TreeModel::init()
+{
+    mDeviceSet = GetItemDeviceSet(mRootItem);
     int colCount = GetMaxColumnCount(mRootItem) + 2;
     for(int i = 0; i < colCount; ++i)
         mCaptions << "...";
 }
-
 TreeModel::~TreeModel()
 {
     delete mRootItem;

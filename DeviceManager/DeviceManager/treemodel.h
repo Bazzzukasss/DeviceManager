@@ -54,6 +54,7 @@ class TreeModel : public QAbstractItemModel
 
 public:
     TreeModel(const QString &filename,QObject *parent = 0);
+    TreeModel(TreeItem *mRootItem,QObject *parent = 0);
     ~TreeModel();
     void Save(const QString& filename);
     void Save();
@@ -90,6 +91,7 @@ private:
     QString mFilename;
     QList<QString> mCaptions;
     QSet<QString> mDeviceSet;
+    void init();
 };
 
 

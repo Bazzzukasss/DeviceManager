@@ -50,9 +50,9 @@ typedef QPair<QString,QVariant> TreeItemData;
 class TreeItem
 {
 public:
-    explicit TreeItem(const QVector<TreeItemData> &data , TreeItem *parent = 0);
+    explicit TreeItem(const QVector<TreeItemData> &data = QVector<TreeItemData>() , TreeItem *parent = 0);
     explicit TreeItem(TreeItem *parent);
-    TreeItem(const TreeItem *item, TreeItem *parent = 0);
+    explicit TreeItem(const TreeItem *item, TreeItem *parent = 0);
     ~TreeItem();
 
     TreeItem *getParent();
