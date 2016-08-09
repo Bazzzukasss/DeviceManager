@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     treeitem.cpp \
     treemodel.cpp \
     xmlprocessor.cpp \
-    xmlwidget.cpp
+    xmlwidget.cpp \
+    cmpwidget.cpp
 
 HEADERS  += mainwindow.h \
     treedelegate.h \
@@ -26,7 +27,8 @@ HEADERS  += mainwindow.h \
     treemodel.h \
     xmldata.h \
     xmlprocessor.h \
-    xmlwidget.h
+    xmlwidget.h \
+    cmpwidget.h
 
 FORMS    += mainwindow.ui
 

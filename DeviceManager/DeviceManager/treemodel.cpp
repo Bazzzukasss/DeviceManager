@@ -136,13 +136,15 @@ Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return 0;
     Qt::ItemFlags flags = QAbstractItemModel::flags(index);
-
-    TreeItem *item = getItem(index);
-    if(item)
+    if(mIsEditable)
     {
-        XMLData data(item->getData());
-        if( (index.column()>0) && (index.column() < data.getAttributes().size()+2) )
-            flags|= Qt::ItemIsEditable;
+        TreeItem *item = getItem(index);
+        if(item)
+        {
+            XMLData data(item->getData());
+            if( (index.column()>0) && (index.column() < data.getAttributes().size()+2) )
+                flags|= Qt::ItemIsEditable;
+        }
     }
     return flags;
 }
@@ -180,6 +182,11 @@ void TreeModel::RefreshHeaders(const QModelIndex &index)
 const QSet<QString> &TreeModel::getDeviceSet() const
 {
     return mDeviceSet;
+}
+
+void TreeModel::setEditable(bool isEditable)
+{
+    mIsEditable = isEditable;
 }
 
 

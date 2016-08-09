@@ -22,6 +22,7 @@
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <cmpwidget.h>
 #include <xmlwidget.h>
 
 QT_BEGIN_NAMESPACE
@@ -48,6 +49,8 @@ public:
     QVBoxLayout *verticalLayout_2;
     XMLWidget *xmlFrame;
     QWidget *tab_2;
+    QVBoxLayout *verticalLayout_3;
+    CMPWidget *frame;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -109,6 +112,18 @@ public:
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
+        verticalLayout_3 = new QVBoxLayout(tab_2);
+        verticalLayout_3->setSpacing(0);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_3->setContentsMargins(0, 0, 0, 0);
+        frame = new CMPWidget(tab_2);
+        frame->setObjectName(QStringLiteral("frame"));
+        frame->setFrameShape(QFrame::StyledPanel);
+        frame->setFrameShadow(QFrame::Raised);
+
+        verticalLayout_3->addWidget(frame);
+
         tabWidget->addTab(tab_2, QString());
 
         verticalLayout->addWidget(tabWidget);

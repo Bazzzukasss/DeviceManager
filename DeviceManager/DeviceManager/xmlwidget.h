@@ -18,6 +18,7 @@ class XMLWidget : public QFrame
 public:
     XMLWidget(QWidget *parent = Q_NULLPTR);
     ~XMLWidget();
+    void setEditable(bool isEditable);
 public slots:
     void slotOpen();
     void slotSave();
@@ -38,6 +39,7 @@ private:
     QTreeView* mTreeView;
     TreeModel* mModel;
     QItemSelectionModel* mSelectionModel;
+    bool mIsEditable;
     void updateFileLabel(const QString& filename);
     void build();
     void open(const QString& filename);

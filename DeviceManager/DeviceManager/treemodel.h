@@ -81,8 +81,9 @@ public:
     void RefreshHeaders(const QModelIndex &index);
 
     const QSet<QString>& getDeviceSet() const;
-
+    void setEditable(bool isEditable);
 private:
+    bool mIsEditable{false};
     QSet<QString> GetItemDeviceSet(TreeItem *item);
     int GetMaxColumnCount(TreeItem *item);
     TreeItem *mRootItem;

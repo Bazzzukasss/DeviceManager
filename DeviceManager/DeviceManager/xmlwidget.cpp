@@ -10,6 +10,7 @@
 XMLWidget::XMLWidget(QWidget *parent)
     :QFrame(parent)
 {
+    mIsEditable =true;
     mModel = nullptr;
     mSelectionModel = nullptr;
     mTreeView = new QTreeView(this);
@@ -30,6 +31,13 @@ XMLWidget::~XMLWidget()
     delete mModel;
 }
 
+void XMLWidget::setEditable(bool isEditable)
+{
+    mIsEditable = isEditable;
+    if(mModel)
+        mModel->setEditable(isEditable);
+}
+
 void XMLWidget::build()
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -48,6 +56,7 @@ void XMLWidget::open(const QString &filename)
     mModel = new TreeModel(filename);
     mSelectionModel = new QItemSelectionModel(mModel);
 
+    mModel->setEditable(mIsEditable);
     mTreeView->setModel(mModel);
     mTreeView->setSelectionModel(mSelectionModel);
     connect(mSelectionModel,    SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this,   SLOT(slotHeadersRefresh(QModelIndex,QModelIndex)));
